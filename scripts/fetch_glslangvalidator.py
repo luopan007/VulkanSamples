@@ -25,6 +25,9 @@
 # It takes as its lone argument the filname (no path) describing the release
 # binary name from the glslang github releases page.
 
+# 第一步：将glslang-master-windows-x64-Release.zip文件存放至根目录glslang里面
+# 第二步：python ./fetch_glslangvalidator.py
+
 import sys
 import os
 import shutil
@@ -35,15 +38,9 @@ import zipfile
 
 SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.join(SCRIPTS_DIR, '..')
-GLSLANG_URL = "https://github.com/KhronosGroup/glslang/releases/download/7.9.2888"
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("ERROR -- must include a single glslang release zipfile name argument")
-        sys.exit();
-
-    GLSLANG_FILENAME = sys.argv[1]
-    GLSLANG_COMPLETE_URL = GLSLANG_URL + "/" + GLSLANG_FILENAME
+    GLSLANG_FILENAME = "glslang-master-windows-x64-Release.zip"
     GLSLANG_OUTFILENAME = os.path.join(REPO_DIR, "glslang", GLSLANG_FILENAME)
     GLSLANG_VALIDATOR_PATH = os.path.join(REPO_DIR, "glslang", "bin")
     GLSLANG_VALIDATOR_FULL_PATH = os.path.join(REPO_DIR, "glslang", "bin", "glslangValidator")
@@ -58,13 +55,9 @@ if __name__ == '__main__':
                     sys.exit();
     else:
         os.mkdir(GLSLANG_DIR)
-    print("   Downloading glslangValidator binary from glslang releases dir")
+    print("   Unzipping glslangValidator binary from glslang releases dir")
     sys.stdout.flush()
 
-    # Download release zip file from glslang github releases site
-    with urllib.request.urlopen(GLSLANG_COMPLETE_URL, context=ssl._create_unverified_context()) as response, open(GLSLANG_OUTFILENAME, 'wb') as out_file:
-        shutil.copyfileobj(response, out_file)
-    # Unzip the glslang binary archive
     zipped_file = zipfile.ZipFile(GLSLANG_OUTFILENAME, 'r')
     namelist = zipped_file.namelist()
     for afile in namelist:
