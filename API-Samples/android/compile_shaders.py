@@ -1,5 +1,7 @@
 # Copyright (c) 2020 LunarG, Inc.
 # To be run from build/API-Samples
+# 必须使用Python3执行此文件，windows自带的Python运行无效果；
+# 自己下载64位的Python3.X
 
 import os, subprocess, platform, sys
 script = os.path.join("..", "..", "scripts", "generate_spirv.py")
